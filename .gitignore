@@ -1,0 +1,12 @@
+﻿venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+vector_store/
+data/events_clean.json
+*.zip
+*.pptx
+*.pdf
+.pytest_cache/
+*.egg-info/

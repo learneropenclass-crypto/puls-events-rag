@@ -1,0 +1,137 @@
+[
+  {
+    "id": "q01",
+    "question": "Quels concerts de jazz ont lieu à Paris dans les prochains mois ?",
+    "expected_answer": "Le système doit mentionner des concerts de jazz à Paris ou en Île-de-France, en précisant le lieu, la date et une brève description de l'événement.",
+    "expected_keywords": ["jazz", "concert", "Paris", "musique"],
+    "category": "musique",
+    "difficulty": "facile",
+    "evaluation_criteria": "La réponse doit contenir au moins un événement de musique jazz à Paris avec une date et un lieu."
+  },
+  {
+    "id": "q02",
+    "question": "Y a-t-il des expositions d'art contemporain accessibles en famille en Île-de-France ?",
+    "expected_answer": "Le système doit recommander des expositions d'art contemporain en Île-de-France adaptées aux familles, avec des informations sur l'accessibilité et les dates.",
+    "expected_keywords": ["exposition", "art", "famille", "Île-de-France"],
+    "category": "art",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit proposer au moins une exposition d'art et mentionner son accessibilité aux familles ou aux enfants."
+  },
+  {
+    "id": "q03",
+    "question": "Quels événements culturels gratuits se déroulent à Paris ce week-end ?",
+    "expected_answer": "Le système doit lister des événements culturels gratuits à Paris pour le week-end à venir, avec les lieux et horaires.",
+    "expected_keywords": ["gratuit", "Paris", "week-end", "événement"],
+    "category": "accessibilité",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit préciser la notion de gratuité et proposer au moins un événement à Paris avec date et lieu."
+  },
+  {
+    "id": "q04",
+    "question": "Recommande-moi un spectacle de théâtre dans les Hauts-de-Seine pour ce mois-ci.",
+    "expected_answer": "Le système doit recommander un ou plusieurs spectacles de théâtre situés dans le département des Hauts-de-Seine, avec les dates et lieux précis.",
+    "expected_keywords": ["théâtre", "Hauts-de-Seine", "spectacle"],
+    "category": "spectacle vivant",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit mentionner le département Hauts-de-Seine et proposer un spectacle de théâtre avec date."
+  },
+  {
+    "id": "q05",
+    "question": "Quels festivals de musique électronique sont prévus en Île-de-France cet été ?",
+    "expected_answer": "Le système doit lister des festivals de musique électronique en Île-de-France programmés en période estivale, avec les lieux et dates.",
+    "expected_keywords": ["festival", "électronique", "musique", "été", "Île-de-France"],
+    "category": "musique",
+    "difficulty": "difficile",
+    "evaluation_criteria": "La réponse doit proposer au moins un festival de musique électronique en IDF avec période estivale et lieu."
+  },
+  {
+    "id": "q06",
+    "question": "Y a-t-il des activités culturelles pour enfants à Versailles ?",
+    "expected_answer": "Le système doit proposer des activités culturelles adaptées aux enfants à Versailles ou dans les Yvelines, avec dates et tarifs si disponibles.",
+    "expected_keywords": ["enfants", "Versailles", "activité", "famille"],
+    "category": "jeunesse",
+    "difficulty": "facile",
+    "evaluation_criteria": "La réponse doit cibler les enfants ou les familles et proposer des activités situées à Versailles."
+  },
+  {
+    "id": "q07",
+    "question": "Quelles sont les prochaines conférences ou débats culturels à Paris ?",
+    "expected_answer": "Le système doit lister des conférences, colloques ou débats culturels à Paris avec lieux et dates.",
+    "expected_keywords": ["conférence", "débat", "Paris", "culturel"],
+    "category": "conférence",
+    "difficulty": "difficile",
+    "evaluation_criteria": "La réponse doit mentionner au moins un événement de type conférence ou débat à Paris avec date."
+  },
+  {
+    "id": "q08",
+    "question": "Existe-t-il des spectacles de danse contemporaine en Seine-Saint-Denis ?",
+    "expected_answer": "Le système doit proposer des spectacles de danse contemporaine situés en Seine-Saint-Denis (93), avec les dates et lieux précis.",
+    "expected_keywords": ["danse", "contemporaine", "Seine-Saint-Denis", "spectacle"],
+    "category": "spectacle vivant",
+    "difficulty": "difficile",
+    "evaluation_criteria": "La réponse doit cibler la Seine-Saint-Denis et proposer un spectacle de danse avec date et lieu."
+  },
+  {
+    "id": "q09",
+    "question": "Quels musées proposent des expositions temporaires en ce moment à Paris ?",
+    "expected_answer": "Le système doit lister des musées parisiens avec leurs expositions temporaires en cours, en précisant les dates de fin.",
+    "expected_keywords": ["musée", "exposition", "temporaire", "Paris"],
+    "category": "art",
+    "difficulty": "facile",
+    "evaluation_criteria": "La réponse doit mentionner au moins un musée à Paris avec une exposition temporaire et ses dates."
+  },
+  {
+    "id": "q10",
+    "question": "Y a-t-il des événements liés au cinéma ou au film en Île-de-France ce mois-ci ?",
+    "expected_answer": "Le système doit proposer des projections de films, festivals de cinéma ou avant-premières en Île-de-France, avec dates et lieux.",
+    "expected_keywords": ["cinéma", "film", "projection", "Île-de-France"],
+    "category": "cinéma",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit proposer au moins un événement lié au cinéma en IDF avec date et lieu."
+  },
+  {
+    "id": "q11",
+    "question": "Quels sont les concerts classiques prévus à l'Opéra de Paris ou dans de grandes salles ?",
+    "expected_answer": "Le système doit recommander des concerts de musique classique dans les grandes salles parisiennes (Opéra, Philharmonie, etc.) avec dates et interprètes si disponibles.",
+    "expected_keywords": ["classique", "opéra", "concert", "Paris", "orchestre"],
+    "category": "musique classique",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit mentionner des concerts classiques dans de grandes salles parisiennes avec dates."
+  },
+  {
+    "id": "q12",
+    "question": "Recommande-moi un événement culturel original ou insolite à ne pas manquer à Paris.",
+    "expected_answer": "Le système doit proposer un événement culturel original, inhabituel ou unique à Paris, en justifiant son caractère insolite.",
+    "expected_keywords": ["original", "insolite", "Paris", "unique", "culturel"],
+    "category": "découverte",
+    "difficulty": "difficile",
+    "evaluation_criteria": "La réponse doit proposer un événement peu commun avec une description qui en souligne le caractère original."
+  },
+  {
+    "id": "q13",
+    "question": "Quels événements se déroulent dans le Val-de-Marne la semaine prochaine ?",
+    "expected_answer": "Le système doit lister des événements dans le Val-de-Marne (94) pour la semaine à venir, avec lieux et dates précises.",
+    "expected_keywords": ["Val-de-Marne", "semaine", "événement"],
+    "category": "géographie",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit cibler le Val-de-Marne et proposer des événements avec dates de la semaine suivante."
+  },
+  {
+    "id": "q14",
+    "question": "Y a-t-il des ateliers artistiques ou des cours ouverts au public en Île-de-France ?",
+    "expected_answer": "Le système doit proposer des ateliers, workshops ou cours d'art ouverts au public en Île-de-France, avec dates et niveaux requis si disponibles.",
+    "expected_keywords": ["atelier", "artistique", "cours", "public", "Île-de-France"],
+    "category": "atelier",
+    "difficulty": "moyen",
+    "evaluation_criteria": "La réponse doit proposer au moins un atelier ou cours artistique en IDF avec date et lieu."
+  },
+  {
+    "id": "q15",
+    "question": "Quels sont les événements culturels accessibles aux personnes à mobilité réduite à Paris ?",
+    "expected_answer": "Le système doit lister des événements à Paris mentionnant une accessibilité PMR (personnes à mobilité réduite), avec dates et lieux.",
+    "expected_keywords": ["accessibilité", "PMR", "mobilité réduite", "Paris"],
+    "category": "accessibilité",
+    "difficulty": "difficile",
+    "evaluation_criteria": "La réponse doit aborder la notion d'accessibilité et proposer des événements à Paris adaptés aux PMR."
+  }
+]
