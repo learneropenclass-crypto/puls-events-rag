@@ -1,14 +1,14 @@
-"""
+﻿"""
 fetch_events.py
 ---------------
 Script de récupération et de nettoyage des données d'événements culturels
 depuis l'API Open Agenda.
 
-P�rimètre géographique : Île-de-France (8 départements)
-P�rimètre temporel     : événements de moins d'un an (passés ou à venir sur 6 mois)
+Pï¿½rimètre géographique : Île-de-France (8 départements)
+Pï¿½rimètre temporel     : événements de moins d'un an (passés ou Ï  venir sur 6 mois)
 
 Pipeline de traitement :
-    1. Appel paginé à l'API Open Agenda v2
+    1. Appel paginé Ï  l'API Open Agenda v2
     2. Filtrage géographique (mots-clés IDF sur ville, département, région)
     3. Nettoyage et normalisation des champs
     4. Construction du champ `text` agrégé pour la vectorisation
@@ -45,7 +45,7 @@ OUTPUT_FILE = DATA_DIR / "events_clean.json"
 
 # API Open Agenda v2
 BASE_URL = "https://api.openagenda.com/v2/events"
-API_KEY  = "6a4049ca7e5047afb348db0bb3a5e58c"  # clé publique Open Agenda
+API_KEY  = os.getenv("OPENAGENDA_API_KEY", "6a4049ca7e5047afb348db0bb3a5e58c")  # cle publique de secours, a definir dans .env
 
 # Mots-clés de détection IDF (ville, département, région)
 IDF_KEYWORDS = [
@@ -62,8 +62,8 @@ def get_date_boundaries() -> tuple:
     Calcule les bornes temporelles du filtre de récupération.
 
     La fenêtre couvre :
-    - Les événements passés : jusqu'à 365 jours en arrière
-    - Les événements à venir : jusqu'à 180 jours en avant
+    - Les événements passés : jusqu'Ï  365 jours en arrière
+    - Les événements Ï  venir : jusqu'Ï  180 jours en avant
 
     Returns:
         tuple[datetime, datetime]: (date_début, date_fin) avec timezone UTC.
@@ -122,8 +122,19 @@ def is_idf(event: dict) -> bool:
 
     Returns:
         bool: True si l'événement est localisé en Île-de-France.
+
+    Limite connue :
+        La detection repose sur une recherche de mots-cles simples et ne
+        valide pas le pays. Un evenement homonyme hors France (ex. Paris
+        au Texas, USA) peut theoriquement produire un faux positif si les
+        champs region/department/city contiennent un mot-cle IDF. Risque
+        mineur pour ce POC (Open Agenda reference des evenements
+        francophones) mais meriterait un filtre explicite sur le pays.
     """
     location = event.get("location", {}) or {}
+    country  = (location.get("countryCode", "") or location.get("country", "") or "").lower()
+    if country and country not in ("fr", "france"):
+        return False
     region   = (location.get("region", "")     or "").lower()
     dept     = (location.get("department", "") or "").lower()
     city     = (location.get("city", "")       or "").lower()
@@ -208,7 +219,7 @@ def fetch_all_events() -> list[dict]:
     """
     Récupère et nettoie tous les événements IDF dans la fenêtre temporelle définie.
 
-    Effectue une pagination complète de l'API Open Agenda jusqu'à atteindre
+    Effectue une pagination complète de l'API Open Agenda jusqu'Ï  atteindre
     MAX_EVENTS événements valides ou l'épuisement des résultats.
 
     En cas d'erreur API (réseau, quota), le dernier état est retourné et un
@@ -218,7 +229,7 @@ def fetch_all_events() -> list[dict]:
         list[dict]: Liste des événements IDF nettoyés et structurés.
     """
     date_min, date_max = get_date_boundaries()
-    logger.info(f"Période : {date_min.date()} → {date_max.date()}")
+    logger.info(f"Période : {date_min.date()} â†’ {date_max.date()}")
     logger.info(f"Région cible : {GEO_REGION}")
 
     events, after_uid, total_raw = [], None, 0
@@ -285,13 +296,13 @@ def generate_demo_events() -> list[dict]:
          "date_start": (now + timedelta(days=15)).isoformat(), "date_end": (now + timedelta(days=17)).isoformat(),
          "city": "Paris", "department": "Paris", "region": "Île-de-France", "venue": "Hippodrome de Longchamp",
          "categories": "Festival, Musique", "keywords": "festival, musique, engagement",
-         "text": "Événement : Festival Solidays\nDescription : 70 artistes à Longchamp.\nLieu : Hippodrome de Longchamp, Paris\nRégion : Île-de-France\nCatégorie : Festival, Musique"},
+         "text": "Événement : Festival Solidays\nDescription : 70 artistes Ï  Longchamp.\nLieu : Hippodrome de Longchamp, Paris\nRégion : Île-de-France\nCatégorie : Festival, Musique"},
         {"uid": "d004", "title": "Corps Célestes — Danse contemporaine",
          "description": "La compagnie Käfig présente Corps Célestes, hip-hop et danse contemporaine.",
          "date_start": (now + timedelta(days=5)).isoformat(), "date_end": (now + timedelta(days=6)).isoformat(),
          "city": "Paris", "department": "Paris", "region": "Île-de-France", "venue": "Théâtre National de Chaillot",
          "categories": "Danse, Spectacle vivant", "keywords": "danse, contemporain, hip-hop",
-         "text": "Événement : Corps Célestes\nDescription : Hip-hop et danse contemporaine à Chaillot.\nLieu : Théâtre National de Chaillot, Paris\nRégion : Île-de-France\nCatégorie : Danse"},
+         "text": "Événement : Corps Célestes\nDescription : Hip-hop et danse contemporaine Ï  Chaillot.\nLieu : Théâtre National de Chaillot, Paris\nRégion : Île-de-France\nCatégorie : Danse"},
         {"uid": "d005", "title": "Nuit des Musées — Louvre gratuit",
          "description": "Ouverture nocturne gratuite du Louvre avec visites guidées thématiques et ateliers.",
          "date_start": (now + timedelta(days=8)).isoformat(), "date_end": (now + timedelta(days=8)).isoformat(),
@@ -299,17 +310,17 @@ def generate_demo_events() -> list[dict]:
          "categories": "Musée, Gratuit", "keywords": "Louvre, gratuit, nuit musées",
          "text": "Événement : Nuit des Musées Louvre\nDescription : Ouverture nocturne gratuite avec visites guidées.\nLieu : Musée du Louvre, Paris\nRégion : Île-de-France\nCatégorie : Musée, Gratuit"},
         {"uid": "d006", "title": "Atelier poterie enfants — Cité des Sciences",
-         "description": "Atelier créatif de poterie pour les enfants de 6 à 12 ans. Inscription obligatoire.",
+         "description": "Atelier créatif de poterie pour les enfants de 6 Ï  12 ans. Inscription obligatoire.",
          "date_start": (now + timedelta(days=2)).isoformat(), "date_end": (now + timedelta(days=2)).isoformat(),
          "city": "Paris", "department": "Paris", "region": "Île-de-France", "venue": "Cité des Sciences",
          "categories": "Atelier, Jeunesse", "keywords": "enfants, poterie, famille",
-         "text": "Événement : Atelier poterie enfants\nDescription : Atelier créatif 6-12 ans à la Cité des Sciences.\nLieu : Cité des Sciences, Paris\nRégion : Île-de-France\nCatégorie : Atelier, Jeunesse"},
+         "text": "Événement : Atelier poterie enfants\nDescription : Atelier créatif 6-12 ans Ï  la Cité des Sciences.\nLieu : Cité des Sciences, Paris\nRégion : Île-de-France\nCatégorie : Atelier, Jeunesse"},
         {"uid": "d007", "title": "Concert Philharmonie — Orchestre de Paris",
-         "description": "L'Orchestre de Paris interprète la Symphonie n°9 de Beethoven sous Klaus Mäkelä.",
+         "description": "L'Orchestre de Paris interprète la Symphonie nÂ°9 de Beethoven sous Klaus Mäkelä.",
          "date_start": (now + timedelta(days=12)).isoformat(), "date_end": (now + timedelta(days=12)).isoformat(),
          "city": "Paris", "department": "Paris", "region": "Île-de-France", "venue": "Philharmonie de Paris",
          "categories": "Musique classique", "keywords": "classique, Beethoven, Philharmonie",
-         "text": "Événement : Concert Philharmonie\nDescription : Symphonie n°9 Beethoven, Klaus Mäkelä.\nLieu : Philharmonie de Paris, Paris\nRégion : Île-de-France\nCatégorie : Musique classique"},
+         "text": "Événement : Concert Philharmonie\nDescription : Symphonie nÂ°9 Beethoven, Klaus Mäkelä.\nLieu : Philharmonie de Paris, Paris\nRégion : Île-de-France\nCatégorie : Musique classique"},
         {"uid": "d008", "title": "Marché artisanal de Versailles",
          "description": "Grand marché artisanal dans les jardins du Château de Versailles.",
          "date_start": (now + timedelta(days=4)).isoformat(), "date_end": (now + timedelta(days=5)).isoformat(),
@@ -347,11 +358,11 @@ def generate_demo_events() -> list[dict]:
          "categories": "Visite, Histoire", "keywords": "catacombes, nocturne, insolite",
          "text": "Événement : Visite nocturne Catacombes\nDescription : Visite guidée nocturne des Catacombes.\nLieu : Catacombes de Paris, Paris\nRégion : Île-de-France\nCatégorie : Visite, Histoire"},
         {"uid": "d014", "title": "Open mic poésie — La Maroquinerie",
-         "description": "Soirée open mic poésie et slam à La Maroquinerie. Ouvert à tous, entrée libre.",
+         "description": "Soirée open mic poésie et slam Ï  La Maroquinerie. Ouvert Ï  tous, entrée libre.",
          "date_start": (now + timedelta(days=11)).isoformat(), "date_end": (now + timedelta(days=11)).isoformat(),
          "city": "Paris", "department": "Paris", "region": "Île-de-France", "venue": "La Maroquinerie",
          "categories": "Poésie, Slam", "keywords": "slam, poésie, gratuit",
-         "text": "Événement : Open mic poésie La Maroquinerie\nDescription : Soirée slam et poésie ouverte à tous.\nLieu : La Maroquinerie, Paris\nRégion : Île-de-France\nCatégorie : Poésie, Slam"},
+         "text": "Événement : Open mic poésie La Maroquinerie\nDescription : Soirée slam et poésie ouverte Ï  tous.\nLieu : La Maroquinerie, Paris\nRégion : Île-de-France\nCatégorie : Poésie, Slam"},
         {"uid": "d015", "title": "Marché de Noël de Saint-Germain-en-Laye",
          "description": "Marché de Noël traditionnel avec chalets artisanaux et animations enfants.",
          "date_start": (now + timedelta(days=30)).isoformat(), "date_end": (now + timedelta(days=45)).isoformat(),
@@ -387,3 +398,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
