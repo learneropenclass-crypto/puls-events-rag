@@ -528,5 +528,3 @@ if __name__ == "__main__":
         print("🌐 Interface disponible sur http://localhost:5000")
         print("   Appuyez sur Ctrl+C pour arrêter.\n")
     app.run(debug=False, port=5000, host="127.0.0.1")
-
-
