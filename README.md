@@ -1,4 +1,4 @@
-﻿# 🎭 Puls-Events RAG — Système de recommandation d'événements culturels
+# 🎭 Puls-Events RAG — Système de recommandation d'événements culturels
 
 ## Présentation
 
@@ -30,16 +30,16 @@ Le système combine trois technologies clés :
 Open Agenda API
       │
       ▼
-[fetch_events.py]  ──â–º Filtrage géo (IDF) + temporel (< 1 an) + nettoyage
+[fetch_events.py]  ──► Filtrage géo (IDF) + temporel (< 1 an) + nettoyage
       │
       ▼
-[vectorize.py]     ──â–º Chunking (500 tokens) + Embeddings Mistral + Index FAISS
+[vectorize.py]     ──► Chunking (500 tokens) + Embeddings Mistral + Index FAISS
       │
       ▼
-[FAISS Index]      ──â–º Base vectorielle persistante sur disque
+[FAISS Index]      ──► Base vectorielle persistante sur disque
       │
       ▼
-[chatbot.py]       ──â–º LangChain LCEL + Mistral Large â†’ Réponse augmentée
+[chatbot.py]       ──► LangChain LCEL + Mistral Large → Réponse augmentée
 ```
 
 ---
@@ -91,11 +91,15 @@ cp .env.example .env
 copy .env.example .env
 ```
 
-Ouvrir le fichier `.env` et remplacer `your_mistral_api_key_here` par votre vraie clé :
+Ouvrir le fichier `.env` et renseigner vos propres clés :
 
 ```
 MISTRAL_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+OPENAGENDA_API_KEY=votre_clé_openagenda
+INDEX_DIR=C:/rag_index
 ```
+
+> `INDEX_DIR` est optionnel : si non défini, `C:/rag_index` est utilisé par défaut (recommandé sous Windows pour éviter les problèmes d'encodage liés aux accents dans les chemins).
 
 ---
 
@@ -201,6 +205,8 @@ puls_events_rag/
 | Variable | Description | Valeur par défaut |
 |---|---|---|
 | `MISTRAL_API_KEY` | Clé API Mistral **(obligatoire)** | — |
+| `OPENAGENDA_API_KEY` | Clé API Open Agenda **(obligatoire)** | — |
+| `INDEX_DIR` | Chemin de l'index FAISS (lu par `vectorize.py`, `chatbot.py` et `app.py`) | `C:/rag_index` |
 | `GEO_REGION` | Région géographique cible | `Île-de-France` |
 | `MAX_EVENTS` | Nombre maximum d'événements à récupérer | `500` |
 | `CHUNK_SIZE` | Taille des chunks en tokens | `500` |
@@ -213,16 +219,16 @@ puls_events_rag/
 
 | Package | Version | Rôle |
 |---|---|---|
-| `langchain-mistralai` | â‰¥0.1.0 | Intégration Mistral (LLM + Embeddings) |
-| `langchain-text-splitters` | â‰¥1.1.0 | Découpage en chunks |
-| `langchain-community` | â‰¥0.0.20 | Intégration FAISS |
-| `langchain-core` | â‰¥1.0.0 | Composants de base LangChain (LCEL) |
-| `faiss-cpu` | â‰¥1.7.4 | Base vectorielle (CPU) |
-| `mistralai` | â‰¥0.4.0 | Client API Mistral |
-| `requests` | â‰¥2.31.0 | Appels API Open Agenda |
-| `python-dotenv` | â‰¥1.0.0 | Gestion des variables d'environnement |
-| `pytest` | â‰¥7.0.0 | Tests unitaires |
-| `flask` | â‰¥3.0.0 | Interface web (optionnel) |
+| `langchain-mistralai` | ≥0.1.0 | Intégration Mistral (LLM + Embeddings) |
+| `langchain-text-splitters` | ≥1.1.0 | Découpage en chunks |
+| `langchain-community` | ≥0.0.20 | Intégration FAISS |
+| `langchain-core` | ≥1.0.0 | Composants de base LangChain (LCEL) |
+| `faiss-cpu` | ≥1.7.4 | Base vectorielle (CPU) |
+| `mistralai` | ≥0.4.0 | Client API Mistral |
+| `requests` | ≥2.31.0 | Appels API Open Agenda |
+| `python-dotenv` | ≥1.0.0 | Gestion des variables d'environnement |
+| `pytest` | ≥7.0.0 | Tests unitaires |
+| `flask` | ≥3.0.0 | Interface web (optionnel) |
 
 ---
 
@@ -242,9 +248,6 @@ puls_events_rag/
 ## Auteur
 
 Projet réalisé dans le cadre du POC Puls-Events — **Ingénieur Data Freelance**  
-Technologies : Python 3.11 Â· LangChain LCEL Â· Mistral AI Â· FAISS Â· Open Agenda API
+Technologies : Python 3.11 · LangChain LCEL · Mistral AI · FAISS · Open Agenda API
  
-
-
-
 
